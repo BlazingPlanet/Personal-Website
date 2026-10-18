@@ -44,6 +44,33 @@ body {
   border-bottom-color: currentColor;
 }
 
+/* Pages with a banner (Home): the header floats over the top of the banner in white.
+   Only the top-level nav links are recolored; the dropdown menu keeps its dark-on-white text. */
+.has-banner .site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  color: #fff;
+}
+
+.has-banner .site-header nav > a,
+.has-banner .nav-item > a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.has-banner .site-header nav > a:hover,
+.has-banner .site-header nav > a.active,
+.has-banner .nav-item > a:hover,
+.has-banner .nav-item > a.active {
+  color: #fff;
+}
+
+.has-banner .nav-item::after {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
 /* Phones: shrink the name and tighten the nav so they don't collide */
 @media (max-width: 480px) {
   .site-header {

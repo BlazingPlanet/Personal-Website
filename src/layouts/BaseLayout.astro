@@ -21,6 +21,9 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
+// Pages that fill the banner slot get the header laid over the banner (see .has-banner in global.css)
+const hasBanner = Astro.slots.has('banner');
+
 const currentPath = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
@@ -34,7 +37,7 @@ const isActive = (href: string) =>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{pageTitle}</title>
   </head>
-  <body>
+  <body class:list={[{ 'has-banner': hasBanner }]}>
     <header class="site-header">
       <a href="/" class="site-name">Trevor W. Taylor</a>
       <nav>

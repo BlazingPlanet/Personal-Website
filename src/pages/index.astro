@@ -86,7 +86,7 @@ const skills = [
         </p>
         <p>
           I am interested in mission critical defense systems, particularly long-range strike weapons
-          and threat interceptors. Feel free to contact me at <a href="mailto:trevor@twtaylor.com">trevor@twtaylor.com</a>!
+          and threat interceptors. Feel free to contact me at <a href="mailto:trevor@twtaylor.com">trevor@twtaylor.com</a>
         </p>
       </div>
     </div>
@@ -141,12 +141,20 @@ const skills = [
   .hero {
     display: grid;
     place-items: center;
-    min-height: clamp(180px, 30vw, 320px);
+    min-height: clamp(260px, 36vw, 400px);
     margin-bottom: 1.5rem;
-    padding: 2rem 1.5rem;
+    /* Top padding leaves room for the name and nav, which sit over the banner */
+    padding: 6rem 1.5rem 3rem;
     background: linear-gradient(135deg, #1a1a1a, #3a3f47);
     color: #fff;
     text-align: center;
+  }
+
+  /* On the narrowest phones the nav wraps below the name, so the header is taller */
+  @media (max-width: 360px) {
+    .hero {
+      padding-top: 7.5rem;
+    }
   }
 
   .hero h1 {
