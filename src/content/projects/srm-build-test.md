@@ -1,9 +1,8 @@
 ---
 title: SRM Build + Test
 summary: Solid rocket motors designed, built, and static-fire tested from scratch.
-# Placeholder dates: update to the real ones
-startDate: 2022-01-01
-endDate: 2023-06-01
+startDate: 2024-01-01
+endDate: 2024-05-01
 tags:
   - Solid Rocket Motors
   - Static Fire
