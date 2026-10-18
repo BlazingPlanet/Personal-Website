@@ -1,15 +1,279 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+import { Image } from 'astro:assets';
+import headshot from '../assets/headshot.jpg';
+
+const education = [
+  {
+    school: 'Georgia Institute of Technology',
+    degree: 'M.S. Aerospace Engineering',
+    dates: '2025 – 2027',
+  },
+  {
+    school: 'San Diego State University',
+    degree: 'B.S. Aerospace Engineering',
+    dates: '2020 – 2024',
+  },
+];
+
+const experience = [
+  {
+    title: 'Structural Stress Engineer II',
+    company: 'Collins Aerospace, Aerostructures',
+    dates: 'February 2025 – Present',
+    summary:
+      'Stress analysis for the Boeing 787, Airbus A220 / Embraer E2 aircraft nacelles, RTX missiles, and tooling',
+    bullets: [
+      'Performing structural analysis of primary and secondary nacelle structures using HyperMesh, NASTRAN, Patran, and hand calculations to determine margins under static, dynamic, and fatigue loads',
+      'Analyzed several tooling structures to support the production of various missile systems by conceptualizing load paths, performing stress analyses, making necessary design/material changes, and writing full analysis records',
+      'Utilizing validated mitigation techniques to correct negative margin issues in finite element models and associated analysis',
+      'Engaged with suppliers on corrective actions for non-compliant parts and completed one-off structural assessments to validate continued safety and flight readiness',
+      'Created Excel macros and Python scripts to automate data extraction, analysis, and reporting',
+      'Developed and revised engineering standard operating manuals detailing methodologies for bolted joint and weld analysis',
+      'Led material trade studies for cracked secondary structures, improving reliability and preventing continued field issues',
+    ],
+  },
+  {
+    title: 'Mechanical Engineer I',
+    company: 'Collins Aerospace, Aerostructures',
+    dates: 'June 2024 – February 2025',
+    summary:
+      'Led development of lifecycle processes for engineering documentation across teams during a PLM migration for ~2,000 users',
+    bullets: [
+      'Developed tailored process solutions to meet individual program needs for Airbus, Boeing, and Gulfstream aircraft',
+    ],
+  },
+];
+
+const skills = [
+  'HyperMesh',
+  'NASTRAN',
+  'Patran',
+  'CATIA V5',
+  'SolidWorks',
+  'MATLAB',
+  'Python',
+  'C',
+  'VBA',
+  'Teamcenter',
+  'Configuration Management',
+];
 ---
 
 <BaseLayout>
-  <section>
-    <h1>Hi, I'm Trevor.</h1>
-    <p>About me goes here.</p>
+  <section class="hero">
+    <h1>Home</h1>
+    <div class="hero-links">
+      <a class="button" href="/projects">View Projects</a>
+      <a class="button secondary" href="/resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+    </div>
+  </section>
+  <section id="about">
+    <div class="section-heading">
+      <h2>About Me</h2>
+    </div>
+    <div class="about-content">
+      <Image src={headshot} alt="Trevor Taylor" width={520} class="headshot" />
+      <div class="about-text">
+        <p>
+          Hello! I'm an aerospace engineer at Collins Aerospace in San Diego, where I do structural
+          analysis on commercial aircraft nacelles. I'm also working toward my M.S. in Aerospace
+          Engineering at Georgia Tech.
+        </p>
+        <p>
+          My passion is, and always has been, rocketry. This happens to mesh well with my love for
+          the United States and the preservation of freedom. I have built various model rockets, solid
+          rocket motors from scratch (up to K-class), and most recently a thrust vectored rocket with
+          an integrated launch system. This was by far my most ambitious project yet; more details are
+          available on the <a href="/projects">Projects</a> tab!
+        </p>
+        <p>
+          I am interested in mission critical defense systems, particularly long-range strike weapons
+          and threat interceptors. Feel free to contact me at <a href="mailto:trevor@twtaylor.com">trevor@twtaylor.com</a>!
+        </p>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>Resume</h2>
-    <p>Resume goes here.</p>
+  <section id="resume">
+    <div class="section-heading">
+      <h2>Resume</h2>
+      <a href="/resume.pdf" download>Download PDF</a>
+    </div>
+
+    <h3>Education</h3>
+    <ul class="entries">
+      {education.map((e) => (
+        <li class="entry-row">
+          <span><strong>{e.school}</strong> | {e.degree}</span>
+          <span class="dates">{e.dates}</span>
+        </li>
+      ))}
+    </ul>
+
+    <h3>Experience</h3>
+    {experience.map((job) => (
+      <article class="job">
+        <div class="entry-row">
+          <span><strong>{job.title}</strong> | {job.company}</span>
+          <span class="dates">{job.dates}</span>
+        </div>
+        <p class="summary">{job.summary}</p>
+        <ul>
+          {job.bullets.map((b) => <li>{b}</li>)}
+        </ul>
+      </article>
+    ))}
+
+    <h3>Skills</h3>
+    <ul class="skills">
+      {skills.map((s) => <li>{s}</li>)}
+    </ul>
+
+    <p class="projects-note">
+      Rocketry and engineering projects are on the <a href="/projects">Projects</a> page.
+    </p>
   </section>
 </BaseLayout>
+
+<style>
+  section {
+    margin-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    line-height: 1.2;
+    margin: 0 0 1.25rem;
+  }
+
+  .hero {
+    padding: 3rem 0 1rem;
+  }
+
+  .about-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .headshot {
+    width: 260px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .about-text p:first-child {
+    margin-top: 0;
+  }
+
+  @media (max-width: 640px) {
+    .about-content {
+      flex-direction: column;
+    }
+
+    .headshot {
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 0.6rem 1.1rem;
+    border: 2px solid #1a1a1a;
+    border-radius: 6px;
+    background: #1a1a1a;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .button.secondary {
+    background: transparent;
+    color: #1a1a1a;
+  }
+
+  .section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+  }
+
+  h3 {
+    margin: 1.75rem 0 0.75rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #555;
+  }
+
+  .entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .entry-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 1rem;
+  }
+
+  .dates {
+    color: #666;
+    white-space: nowrap;
+  }
+
+  .job {
+    margin-bottom: 1.5rem;
+  }
+
+  .summary {
+    margin: 0.25rem 0 0.5rem;
+    color: #333;
+  }
+
+  .job ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .job li {
+    margin-bottom: 0.3rem;
+  }
+
+  .skills {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skills li {
+    background: #f1f1f1;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+  }
+
+  .projects-note {
+    margin-top: 2rem;
+  }
+</style>
