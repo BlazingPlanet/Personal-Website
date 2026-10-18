@@ -1,0 +1,123 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getProjects, formatDateRange, type Project } from '../../lib/projects';
+
+// Build one page per project, at /projects/<markdown file name>.
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, startDate, endDate, cover, coverAlt, tags } = project.data;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={title}>
+  <a class="back-link" href="/projects">← All projects</a>
+
+  <header class="project-header">
+    <h1>{title}</h1>
+    <p class="dates">{formatDateRange(startDate, endDate)}</p>
+    {tags.length > 0 && (
+      <ul class="tag-list">
+        {tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+    )}
+  </header>
+
+  {cover && <Image src={cover} alt={coverAlt ?? ''} width={1000} class="cover" />}
+
+  <article class="prose">
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin: 1rem 0 0.75rem;
+    color: #555;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  .back-link:hover {
+    color: #1a1a1a;
+  }
+
+  .project-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-header h1 {
+    margin: 0 0 0.25rem;
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    line-height: 1.2;
+  }
+
+  .dates {
+    margin: 0 0 0.75rem;
+    color: #666;
+  }
+
+  .cover {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Styles for the rendered Markdown. :global() is needed because Astro's scoped
+     styles don't otherwise reach elements that come from the Markdown file. */
+  .prose {
+    max-width: 72ch;
+  }
+
+  .prose :global(h2) {
+    margin: 2rem 0 0.5rem;
+    font-size: 1.35rem;
+  }
+
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .prose :global(h3) {
+    margin: 1.5rem 0 0.4rem;
+    font-size: 1.1rem;
+  }
+
+  .prose :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  /* YouTube embeds: paste the iframe into the Markdown and it scales to the column width. */
+  .prose :global(iframe) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 6px;
+  }
+
+  .prose :global(pre) {
+    overflow-x: auto;
+    padding: 1rem;
+    background: #f6f6f6;
+    border-radius: 6px;
+  }
+</style>

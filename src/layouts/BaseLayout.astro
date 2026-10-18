@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { getProjects } from '../lib/projects';
 
 interface Props {
   title?: string;
@@ -8,9 +9,15 @@ interface Props {
 const { title } = Astro.props;
 const pageTitle = title ? `${title} | Trevor W. Taylor` : 'Trevor W. Taylor';
 
+const projects = await getProjects();
+
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
+  {
+    href: '/projects',
+    label: 'Projects',
+    children: projects.map((p) => ({ href: `/projects/${p.id}`, label: p.data.title })),
+  },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -31,13 +38,30 @@ const isActive = (href: string) =>
     <header class="site-header">
       <a href="/" class="site-name">Trevor W. Taylor</a>
       <nav>
-        {navLinks.map((link) => (
-          <a href={link.href} class:list={[{ active: isActive(link.href) }]}>
-            {link.label}
-          </a>
-        ))}
+        {navLinks.map((link) =>
+          link.children ? (
+            <div class="nav-item">
+              <a href={link.href} class:list={[{ active: isActive(link.href) }]}>
+                {link.label}
+              </a>
+              <ul class="nav-dropdown">
+                {link.children.map((child) => (
+                  <li>
+                    <a href={child.href}>{child.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <a href={link.href} class:list={[{ active: isActive(link.href) }]}>
+              {link.label}
+            </a>
+          )
+        )}
       </nav>
     </header>
+
+    <slot name="banner" />
 
     <main>
       <slot />

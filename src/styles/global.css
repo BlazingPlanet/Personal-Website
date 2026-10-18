@@ -14,6 +14,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   max-width: 1000px;
   margin: 0 auto;
   padding: 1.25rem 1.5rem;
@@ -41,6 +42,120 @@ body {
 .site-header nav a.active {
   color: #1a1a1a;
   border-bottom-color: currentColor;
+}
+
+/* Phones: shrink the name and tighten the nav so they don't collide */
+@media (max-width: 480px) {
+  .site-header {
+    /* On the narrowest phones, the nav drops below the name instead of overlapping it */
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  .site-name {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .site-header nav {
+    gap: 0.9rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Projects dropdown in the header nav */
+.nav-item {
+  position: relative;
+  /* Extends the hover area down to the menu so it doesn't close while the mouse moves onto it */
+  padding-bottom: 0.5rem;
+  margin-bottom: -0.5rem;
+}
+
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  min-width: 14rem;
+  margin: 0;
+  padding: 0.4rem 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Small chevron after "Projects" hinting that there's a menu; flips up while the menu is open */
+.nav-item::after {
+  content: '';
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  margin-left: 0.4em;
+  border-right: 1.5px solid #555;
+  border-bottom: 1.5px solid #555;
+  transform: translateY(-0.2em) rotate(45deg);
+  transition: transform 0.15s;
+}
+
+/* Only open on hover for devices with a mouse; on phones, tapping Projects goes to the list page.
+   :focus-within also opens it for keyboard users tabbing through the nav. */
+@media (hover: hover) {
+  .nav-item:hover .nav-dropdown {
+    display: block;
+  }
+
+  .nav-item:hover::after {
+    transform: translateY(0.05em) rotate(225deg);
+  }
+}
+
+.nav-item:focus-within .nav-dropdown {
+  display: block;
+}
+
+.nav-item:focus-within::after {
+  transform: translateY(0.05em) rotate(225deg);
+}
+
+/* No hover menu on touch screens, so no chevron either */
+@media (hover: none) {
+  .nav-item::after {
+    display: none;
+  }
+}
+
+.site-header .nav-dropdown a {
+  display: block;
+  padding: 0.4rem 1rem;
+  border-bottom: none;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+.site-header .nav-dropdown a:hover,
+.site-header .nav-dropdown a:focus-visible {
+  background: #f1f1f1;
+}
+
+/* Tag pills, used on the Projects list and detail pages */
+.tag-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-list li {
+  background: #f1f1f1;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #333;
 }
 
 main {
