@@ -1,64 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Highlights from '../components/Highlights.astro';
 
 import { Image } from 'astro:assets';
 import headshot from '../assets/headshot.jpg';
-
-const education = [
-  {
-    school: 'Georgia Institute of Technology',
-    degree: 'M.S. Aerospace Engineering',
-    dates: '2025 – 2027',
-  },
-  {
-    school: 'San Diego State University',
-    degree: 'B.S. Aerospace Engineering',
-    dates: '2020 – 2024',
-  },
-];
-
-const experience = [
-  {
-    title: 'Structural Stress Engineer II',
-    company: 'Collins Aerospace, Aerostructures',
-    dates: 'February 2025 – Present',
-    summary:
-      'Stress analysis for the Boeing 787, Airbus A220 / Embraer E2 aircraft nacelles and tooling',
-    bullets: [
-      'Performing structural analysis of primary and secondary nacelle structures using HyperMesh, NASTRAN, Patran, and hand calculations to determine margins under static, dynamic, and fatigue loads',
-      'Analyzed several tooling structures to support the production of various missile systems by conceptualizing load paths, performing stress analyses, making necessary design/material changes, and writing full analysis records',
-      'Utilizing validated mitigation techniques to correct negative margin issues in finite element models and associated analysis',
-      'Engaged with suppliers on corrective actions for non-compliant parts and completed one-off structural assessments to validate continued safety and flight readiness',
-      'Created Excel macros and Python scripts to automate data extraction, analysis, and reporting',
-      'Developed and revised engineering standard operating manuals detailing methodologies for bolted joint and weld analysis',
-      'Led material trade studies for cracked secondary structures, improving reliability and preventing continued field issues',
-    ],
-  },
-  {
-    title: 'Mechanical Engineer I',
-    company: 'Collins Aerospace, Aerostructures',
-    dates: 'June 2024 – February 2025',
-    summary:
-      'Led development of lifecycle processes for engineering documentation across teams during a PLM migration for ~2,000 users',
-    bullets: [
-      'Developed tailored process solutions to meet individual program needs for Airbus, Boeing, and Gulfstream aircraft',
-    ],
-  },
-];
-
-const skills = [
-  'HyperMesh',
-  'NASTRAN',
-  'Patran',
-  'CATIA V5',
-  'SolidWorks',
-  'MATLAB',
-  'Python',
-  'C',
-  'VBA',
-  'Teamcenter',
-  'Configuration Management',
-];
 ---
 
 <BaseLayout>
@@ -68,68 +13,44 @@ const skills = [
   <section id="about">
     <div class="section-heading">
       <h2>About Me</h2>
+      <a class="resume-button" href="/resume.pdf" download="Trevor-Taylor-Resume.pdf">
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Resume
+      </a>
     </div>
     <div class="about-content">
       <Image src={headshot} alt="Trevor Taylor" width={520} class="headshot" />
       <div class="about-text">
         <p>
-          Hello! I'm Trevor Taylor, an aerospace engineer at Collins Aerospace in San Diego, where I do structural
-          analysis on commercial aircraft nacelles. I'm also working toward my M.S. in Aerospace
-          Engineering at Georgia Tech.
+          Hi, I'm Trevor Taylor, an aerospace engineer at Collins Aerospace in San Diego, where I
+          perform structural analysis on commercial aircraft nacelles. I'm also pursuing my M.S. in
+          Aerospace Engineering at Georgia Tech.
         </p>
         <p>
-          My passion is, and always has been, rocketry. This happens to mesh well with my love for
-          the United States and the preservation of freedom. I have built various model rockets, solid
-          rocket motors from scratch (up to K-class), and most recently a thrust vectored rocket with
-          an integrated launch system. This was by far my most ambitious project yet; more details are
-          available on the <a href="/projects">Projects</a> tab!
+          My passion is, and always has been, rocketry. I've built many model rockets, designed and
+          tested solid rocket motors from scratch, and most recently built a thrust-vector-controlled
+          rocket with its own integrated launch system. This was my most ambitious project yet, and
+          you can find the full build on the <a href="/projects">Projects</a> page!
         </p>
         <p>
-          I am interested in mission critical defense systems, particularly long-range strike weapons
-          and threat interceptors. Feel free to contact me at <a href="mailto:trevor@twtaylor.com">trevor@twtaylor.com</a>
+          For me, this all connects to something bigger: a deep love for the United States and a
+          belief that strong deterrence is what keeps freedom secure. I am interested in mission
+          critical defense systems, particularly missiles, space assets, and threat interceptors.
+        </p>
+        <p>
+          If you'd like to talk engineering, rockets, or opportunities, reach me at <a href="mailto:trevor@twtaylor.com">trevor@twtaylor.com</a>.
         </p>
       </div>
     </div>
   </section>
 
-  <section id="resume">
+  <section id="highlights">
     <div class="section-heading">
-      <h2>Resume</h2>
-      <a href="/resume.pdf" download>Download PDF</a>
+      <h2>Highlights</h2>
     </div>
-
-    <h3>Education</h3>
-    <ul class="entries">
-      {education.map((e) => (
-        <li class="entry-row">
-          <span><strong>{e.school}</strong> | {e.degree}</span>
-          <span class="dates">{e.dates}</span>
-        </li>
-      ))}
-    </ul>
-
-    <h3>Experience</h3>
-    {experience.map((job) => (
-      <article class="job">
-        <div class="entry-row">
-          <span><strong>{job.title}</strong> | {job.company}</span>
-          <span class="dates">{job.dates}</span>
-        </div>
-        <p class="summary">{job.summary}</p>
-        <ul>
-          {job.bullets.map((b) => <li>{b}</li>)}
-        </ul>
-      </article>
-    ))}
-
-    <h3>Skills</h3>
-    <ul class="skills">
-      {skills.map((s) => <li>{s}</li>)}
-    </ul>
-
-    <p class="projects-note">
-      Rocketry and engineering projects are on the <a href="/projects">Projects</a> page.
-    </p>
+    <Highlights />
   </section>
 </BaseLayout>
 
@@ -141,7 +62,7 @@ const skills = [
   .hero {
     display: grid;
     place-items: center;
-    min-height: clamp(260px, 36vw, 400px);
+    min-height: clamp(208px, 28.8vw, 320px);
     margin-bottom: 1.5rem;
     /* Top padding leaves room for the name and nav, which sit over the banner */
     padding: 6rem 1.5rem 3rem;
@@ -194,7 +115,8 @@ const skills = [
   .section-heading {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
+    gap: 1rem;
     border-bottom: 1px solid #ddd;
     padding-bottom: 0.4rem;
     margin-bottom: 1rem;
@@ -204,66 +126,30 @@ const skills = [
     margin: 0;
   }
 
-  h3 {
-    margin: 1.75rem 0 0.75rem;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #555;
-  }
-
-  .entries {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .entry-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0 1rem;
-  }
-
-  .dates {
-    color: #666;
-    white-space: nowrap;
-  }
-
-  .job {
-    margin-bottom: 1.5rem;
-  }
-
-  .summary {
-    margin: 0.25rem 0 0.5rem;
-    color: #333;
-  }
-
-  .job ul {
-    margin: 0;
-    padding-left: 1.25rem;
-  }
-
-  .job li {
-    margin-bottom: 0.3rem;
-  }
-
-  .skills {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .skills li {
-    background: #f1f1f1;
-    padding: 0.3rem 0.75rem;
+  /* Small outlined pill: easy to find next to the heading without competing with the content */
+  .resume-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid #ccc;
     border-radius: 999px;
-    font-size: 0.95rem;
+    color: #1a1a1a;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.15s, background 0.15s;
   }
 
-  .projects-note {
-    margin-top: 2rem;
+  .resume-button:hover,
+  .resume-button:focus-visible {
+    border-color: #1a1a1a;
+    background: #f6f6f6;
+  }
+
+  .resume-button svg {
+    width: 1em;
+    height: 1em;
   }
 </style>

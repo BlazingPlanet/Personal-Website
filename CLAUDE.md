@@ -13,8 +13,11 @@ Personal portfolio site for Trevor Taylor, aerospace engineer. Showcases rocketr
 ## Structure
 - `src/layouts/BaseLayout.astro` — shared head, header nav (Home, Projects, Contact in the top right), footer
 - `src/styles/global.css` — site-wide styles
-- `src/pages/index.astro` — Home: About Me with headshot, plus web resume (resume content lives in data arrays at the top of the file)
-- `src/pages/projects/index.astro` — Projects list (currently a placeholder)
+- `src/pages/index.astro` — Home: banner, About Me with headshot, and a resume download button (the full web resume was removed; it's in git history at commit aac0ede)
+- `src/pages/projects/index.astro` — Projects list as cards; `src/pages/projects/[id].astro` renders each project's detail page
+- `src/content.config.ts` + `src/content/projects/*.md` — projects content collection; `src/lib/projects.ts` has sorting and date formatting
+- `src/data/highlights.ts` — list of items in the Home page Highlights section (rendered by `src/components/Highlights.astro`). Highlights are photos and short silent looping clips only; longer videos and build/process photos go on the project pages
+- `src/assets/media/` — Highlights photos; `public/media/` — converted Highlights videos (.mp4) and their poster .jpg
 - `src/pages/contact.astro` — Contact page
 - `src/assets/headshot.jpg` — photo, rendered with `Image` from `astro:assets`
 - `public/resume.pdf` — public resume PDF (phone number intentionally removed)
@@ -27,7 +30,8 @@ Plan: each project as a Markdown file in an Astro content collection, with its o
 ## Conventions
 - Page-specific styles go in scoped `<style>` blocks; shared styles in `global.css`
 - Keep the site fully static (no server code); contact is via mailto link
-- Images go through `astro:assets` for optimization; videos should be YouTube embeds, not committed files
+- Images go through `astro:assets` for optimization
+- Videos: short clips are converted with ffmpeg (installed via winget) to small H.264 .mp4 files in `public/media/`; long videos go on YouTube. Never commit raw .mov originals; they live outside the repo in `C:\Users\trevo\OneDrive\Desktop\Personal_Website_Media`
 
 ## Working with Trevor
 - He's an experienced engineer but newer to web development, so briefly explain what each change does and why

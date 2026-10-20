@@ -1,0 +1,134 @@
+---
+import { Image } from 'astro:assets';
+import { highlights } from '../data/highlights';
+import { getProjects } from '../lib/projects';
+
+const projectTitles = new Map((await getProjects()).map((p) => [p.id, p.data.title]));
+
+// Fail the build on a mistyped project name instead of publishing a broken link
+for (const h of highlights) {
+  if (h.project && !projectTitles.has(h.project)) {
+    throw new Error(`Highlight "${h.caption}" links to unknown project "${h.project}"`);
+  }
+}
+---
+
+<ul class="highlights">
+  {highlights.map((h) => (
+    <li>
+      <figure>
+        {h.type === 'photo' ? (
+          <Image src={h.image} alt={h.alt} width={720} class="media" />
+        ) : (
+          <video
+            class="media"
+            src={h.src}
+            poster={h.poster}
+            width={h.width}
+            height={h.height}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label={h.caption}
+          />
+        )}
+        <figcaption>
+          <span>{h.caption}</span>
+          {h.project && (
+            <a href={`/projects/${h.project}`}>{projectTitles.get(h.project)} →</a>
+          )}
+        </figcaption>
+      </figure>
+    </li>
+  ))}
+</ul>
+
+<script>
+  // Clips loop this many times, then stop on the poster image with a play button to watch again.
+  const PLAYS = 3;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLVideoElement>('.highlights video').forEach((video) => {
+    // Respect the "reduce motion" accessibility setting: don't auto-play, show a play button instead
+    if (reduceMotion) {
+      video.pause();
+      video.controls = true;
+      return;
+    }
+
+    let plays = 1;
+    let lastTime = 0;
+    video.addEventListener('timeupdate', () => {
+      // The playback position jumping back to the start means the clip just looped
+      if (video.loop && video.currentTime < lastTime) {
+        plays += 1;
+        // Turn looping off during the last play so it runs to the end and stops cleanly
+        if (plays >= PLAYS) video.loop = false;
+      }
+      lastTime = video.currentTime;
+    });
+
+    video.addEventListener(
+      'ended',
+      () => {
+        video.autoplay = false; // otherwise reloading would start it again
+        video.load(); // back to the poster image
+        video.controls = true;
+      },
+      { once: true },
+    );
+  });
+</script>
+
+<style>
+  /* Masonry-style columns keep every photo and video at its natural shape (no cropping):
+     3 columns on desktop, 2 on tablets, 1 on phones. */
+  .highlights {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 3 240px;
+    column-gap: 1.25rem;
+  }
+
+  .highlights li {
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  .media {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    background: #f1f1f1;
+  }
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 0.75rem;
+    margin-top: 0.45rem;
+    font-size: 0.9rem;
+    color: #333;
+  }
+
+  figcaption a {
+    color: #666;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  figcaption a:hover {
+    color: #1a1a1a;
+    text-decoration: underline;
+  }
+</style>
