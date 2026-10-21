@@ -23,9 +23,13 @@ const projects = defineCollection({
       startDate: projectDate,
       // Leave out for an ongoing project; it displays as "Present".
       endDate: projectDate.optional(),
-      // Path relative to the Markdown file, e.g. ../../assets/projects/tvc-cover.jpg
+      // Photo for the project's card on the Projects page (cropped to 3:2).
+      // Path relative to the Markdown file, e.g. ../../assets/media/tvc-cover.jpg
       cover: image().optional(),
       coverAlt: z.string().optional(),
+      // Which part of the cover photo to keep when it's cropped: "center" (default), "top",
+      // "bottom", or a CSS object-position value like "center 30%"
+      coverPosition: z.string().default('center'),
     }),
 });
 

@@ -1,6 +1,9 @@
 ---
 title: Early Rocket Experiment
 summary: A high school build of a homemade solid rocket motor, flown in a cardboard-tube rocket.
+cover: ../../assets/media/OG_Rocket_Frame2.JPG
+coverAlt: Rocket climbing away from a dry lakebed on a tall column of white smoke
+coverPosition: top
 # Year only: exact dates unknown
 startDate: 2019
 endDate: 2019

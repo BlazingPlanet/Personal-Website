@@ -10,11 +10,21 @@ const projects = await getProjects();
   <h1>Projects</h1>
   <ul class="project-grid">
     {projects.map((project) => {
-      const { title, summary, startDate, endDate, cover, coverAlt } = project.data;
+      const { title, summary, startDate, endDate, cover, coverAlt, coverPosition } = project.data;
       return (
         <li>
           <a class="project-card" href={`/projects/${project.id}`}>
-            {cover && <Image src={cover} alt={coverAlt ?? ''} width={640} class="card-cover" />}
+            {cover ? (
+              <Image
+                src={cover}
+                alt={coverAlt ?? ''}
+                width={960}
+                class="card-cover"
+                style={`object-position: ${coverPosition}`}
+              />
+            ) : (
+              <div class="card-cover placeholder" aria-hidden="true" />
+            )}
             <div class="card-body">
               <h2>{title}</h2>
               <p class="dates">{formatDateRange(startDate, endDate)}</p>
@@ -37,8 +47,9 @@ const projects = await getProjects();
     padding: 0;
     margin: 1.5rem 0 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-    gap: 1.25rem;
+    /* Two cards per row on desktop, one on tablets and phones */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+    gap: 1.5rem;
   }
 
   .project-card {
@@ -59,11 +70,18 @@ const projects = await getProjects();
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   }
 
+  /* Cover photo, cropped to a consistent 3:2 shape (set `cover` in the project's frontmatter) */
   .card-cover {
+    display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
+  }
+
+  /* Stand-in until a project has a cover photo; matches the Home banner */
+  .card-cover.placeholder {
+    background: linear-gradient(135deg, #1a1a1a, #3a3f47);
   }
 
   .card-body {
@@ -71,12 +89,12 @@ const projects = await getProjects();
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 1rem 1.1rem 1.2rem;
+    padding: 1.1rem 1.25rem 1.4rem;
   }
 
   h2 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     line-height: 1.3;
   }
 

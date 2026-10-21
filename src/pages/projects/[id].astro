@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getProjects, formatDateRange, type Project } from '../../lib/projects';
@@ -18,7 +17,8 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, startDate, endDate, cover, coverAlt } = project.data;
+// The cover photo is only used on the Projects list cards; put photos in the Markdown body here
+const { title, startDate, endDate } = project.data;
 const { Content } = await render(project);
 ---
 
@@ -29,8 +29,6 @@ const { Content } = await render(project);
     <h1>{title}</h1>
     <p class="dates">{formatDateRange(startDate, endDate)}</p>
   </header>
-
-  {cover && <Image src={cover} alt={coverAlt ?? ''} width={1000} class="cover" />}
 
   <article class="prose">
     <Content />
@@ -67,18 +65,15 @@ const { Content } = await render(project);
     color: #666;
   }
 
-  .cover {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-  }
-
   /* Styles for the rendered Markdown. :global() is needed because Astro's scoped
      styles don't otherwise reach elements that come from the Markdown file. */
-  /* Keep lines of text at a comfortable reading width; image pairs below use the full width */
+  /* Keep lines of text at a comfortable reading width; photos use the full width */
   .prose > :global(*) {
     max-width: 72ch;
+  }
+
+  .prose > :global(p:has(> img)) {
+    max-width: none;
   }
 
   .prose :global(h2) {
@@ -107,12 +102,62 @@ const { Content } = await render(project);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
     gap: 0.75rem;
-    max-width: none;
     margin: 1.5rem 0;
   }
 
   .prose :global(p:has(> img + img) img) {
     width: 100%;
+  }
+
+  /* Photo/video beside text: wrap two <div>s in <div class="media-row"> in the Markdown.
+     The first column is wider; add "narrow-first" for a narrow first column (good for tall
+     photos and portrait videos). They stack on narrow screens. */
+  .prose :global(.media-row) {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 1.75rem;
+    align-items: center;
+    max-width: none;
+    margin: 1.25rem 0 1.75rem;
+  }
+
+  .prose :global(.media-row.narrow-first) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .prose :global(.media-row > div > :first-child) {
+    margin-top: 0;
+  }
+
+  .prose :global(.media-row > div > :last-child) {
+    margin-bottom: 0;
+  }
+
+  /* Text beside a photo/video is a bit larger so it balances the media */
+  .prose :global(.media-row p:not(.caption)) {
+    font-size: 1.15rem;
+    line-height: 1.65;
+  }
+
+  /* Captions under a single photo in a row are centered beneath it */
+  .prose :global(.media-row .caption) {
+    text-align: center;
+  }
+
+  .prose :global(.media-row img),
+  .prose :global(.media-row video) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  @media (max-width: 700px) {
+    .prose :global(.media-row),
+    .prose :global(.media-row.narrow-first) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
   }
 
   /* Small italic note under a photo: <p class="caption"><em>...</em></p> in the Markdown */
