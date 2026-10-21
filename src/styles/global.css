@@ -167,24 +167,6 @@ body {
   background: #f1f1f1;
 }
 
-/* Tag pills, used on the Projects list and detail pages */
-.tag-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.tag-list li {
-  background: #f1f1f1;
-  padding: 0.15rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: #333;
-}
-
 main {
   max-width: 1000px;
   margin: 0 auto;

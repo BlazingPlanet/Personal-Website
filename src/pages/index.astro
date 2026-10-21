@@ -24,7 +24,7 @@ import headshot from '../assets/headshot.jpg';
       <Image src={headshot} alt="Trevor Taylor" width={520} class="headshot" />
       <div class="about-text">
         <p>
-          Hi, I'm Trevor Taylor, an aerospace engineer at Collins Aerospace in San Diego, where I
+          Hello! I'm Trevor Taylor, an aerospace engineer at Collins Aerospace in San Diego, where I
           perform structural analysis on commercial aircraft nacelles. I'm also pursuing my M.S. in
           Aerospace Engineering at Georgia Tech.
         </p>
@@ -62,19 +62,21 @@ import headshot from '../assets/headshot.jpg';
   .hero {
     display: grid;
     place-items: center;
-    min-height: clamp(208px, 28.8vw, 320px);
+    min-height: clamp(166px, 23vw, 256px);
     margin-bottom: 1.5rem;
-    /* Top padding leaves room for the name and nav, which sit over the banner */
-    padding: 6rem 1.5rem 3rem;
+    /* Top padding leaves room for the name and nav, which sit over the banner, and sets "Home"
+       a little below center so it has breathing room from the nav */
+    padding: 5rem 1.5rem 3rem;
     background: linear-gradient(135deg, #1a1a1a, #3a3f47);
     color: #fff;
     text-align: center;
   }
 
-  /* On the narrowest phones the nav wraps below the name, so the header is taller */
+  /* On the narrowest phones the nav wraps below the name, so the header is taller;
+     "Home" sits just below the nav instead of centered, to keep the banner short */
   @media (max-width: 360px) {
     .hero {
-      padding-top: 7.5rem;
+      padding: 7.5rem 1.5rem 2rem;
     }
   }
 

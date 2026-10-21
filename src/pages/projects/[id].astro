@@ -18,7 +18,7 @@ interface Props {
 }
 
 const { project } = Astro.props;
-const { title, startDate, endDate, cover, coverAlt, tags } = project.data;
+const { title, startDate, endDate, cover, coverAlt } = project.data;
 const { Content } = await render(project);
 ---
 
@@ -28,11 +28,6 @@ const { Content } = await render(project);
   <header class="project-header">
     <h1>{title}</h1>
     <p class="dates">{formatDateRange(startDate, endDate)}</p>
-    {tags.length > 0 && (
-      <ul class="tag-list">
-        {tags.map((tag) => <li>{tag}</li>)}
-      </ul>
-    )}
   </header>
 
   {cover && <Image src={cover} alt={coverAlt ?? ''} width={1000} class="cover" />}
@@ -68,7 +63,7 @@ const { Content } = await render(project);
   }
 
   .dates {
-    margin: 0 0 0.75rem;
+    margin: 0;
     color: #666;
   }
 
@@ -81,7 +76,8 @@ const { Content } = await render(project);
 
   /* Styles for the rendered Markdown. :global() is needed because Astro's scoped
      styles don't otherwise reach elements that come from the Markdown file. */
-  .prose {
+  /* Keep lines of text at a comfortable reading width; image pairs below use the full width */
+  .prose > :global(*) {
     max-width: 72ch;
   }
 
@@ -103,6 +99,27 @@ const { Content } = await render(project);
     max-width: 100%;
     height: auto;
     border-radius: 6px;
+  }
+
+  /* Two or more images on consecutive lines in the Markdown display side by side
+     (stacked on phones) */
+  .prose :global(p:has(> img + img)) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 0.75rem;
+    max-width: none;
+    margin: 1.5rem 0;
+  }
+
+  .prose :global(p:has(> img + img) img) {
+    width: 100%;
+  }
+
+  /* Small italic note under a photo: <p class="caption"><em>...</em></p> in the Markdown */
+  .prose :global(.caption) {
+    margin-top: -0.75rem;
+    font-size: 0.9rem;
+    color: #666;
   }
 
   /* YouTube embeds: paste the iframe into the Markdown and it scales to the column width. */

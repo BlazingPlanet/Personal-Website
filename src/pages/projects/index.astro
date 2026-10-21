@@ -10,7 +10,7 @@ const projects = await getProjects();
   <h1>Projects</h1>
   <ul class="project-grid">
     {projects.map((project) => {
-      const { title, summary, startDate, endDate, cover, coverAlt, tags } = project.data;
+      const { title, summary, startDate, endDate, cover, coverAlt } = project.data;
       return (
         <li>
           <a class="project-card" href={`/projects/${project.id}`}>
@@ -19,11 +19,6 @@ const projects = await getProjects();
               <h2>{title}</h2>
               <p class="dates">{formatDateRange(startDate, endDate)}</p>
               <p class="summary">{summary}</p>
-              {tags.length > 0 && (
-                <ul class="tag-list">
-                  {tags.map((tag) => <li>{tag}</li>)}
-                </ul>
-              )}
             </div>
           </a>
         </li>
@@ -94,10 +89,5 @@ const projects = await getProjects();
   .summary {
     margin: 0;
     color: #333;
-  }
-
-  .tag-list {
-    margin-top: auto;
-    padding-top: 0.25rem;
   }
 </style>

@@ -1,12 +1,8 @@
 ---
 title: TVC Rocket + Launch Pad
 summary: Thrust-vector-controlled rocket with an integrated launch system.
-# No endDate shows "Present"
-startDate: 2026-05-01
-tags:
-  - Thrust Vector Control
-  - Avionics
-  - Launch Pad
+startDate: 2026
+endDate: 2026
 ---
 
 ## Overview

@@ -1,5 +1,4 @@
 import type { ImageMetadata } from 'astro';
-import ogRocketFrame2 from '../assets/media/OG_Rocket_Frame2.JPG';
 
 // Items shown in the Highlights section on the Home page, in this order.
 // Highlights are photos and short silent looping clips only; longer videos go on project pages.
@@ -18,12 +17,6 @@ export type Highlight = {
 );
 
 export const highlights: Highlight[] = [
-  {
-    type: 'photo',
-    image: ogRocketFrame2,
-    alt: 'Rocket lifting off from a dry lakebed on a column of white smoke',
-    caption: 'Liftoff',
-  },
   {
     type: 'clip',
     src: '/media/static-fire.mp4',

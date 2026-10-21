@@ -23,7 +23,7 @@ Personal portfolio site for Trevor Taylor, aerospace engineer. Showcases rocketr
 - `public/resume.pdf` — public resume PDF (phone number intentionally removed)
 
 ## Projects
-Current: Class K Rocket; SRM Build + Test; TVC Rocket + Launch Pad.
+Current: Early Rocket Experiment (high school K-class build, 2019); SRM Build + Test; TVC Rocket + Launch Pad.
 Future: Tripoli Level 1 and Level 2 certification builds.
 Plan: each project as a Markdown file in an Astro content collection, with its own detail page linked from the Projects list.
 
