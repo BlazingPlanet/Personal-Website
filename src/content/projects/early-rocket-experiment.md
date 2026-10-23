@@ -18,7 +18,7 @@ appreciated at the time, and I'm glad it worked as well as it did.
 
 With a motor in hand, I needed something to fly it in. Rather than build a test stand, I went
 straight to a rocket: large cardboard mailing tubes for the airframe, a plastic nose cone, and fins
-cut from wood. All I wanted was for the rocket to be big and look cool.
+cut from wood. Back then, all I cared about was making it big.
 
 ![The 8-foot rocket on the pad at ignition, with smoke spreading across a dry lakebed](../../assets/media/OG_Rocket_Frame1.JPG)
 ![The rocket climbing away from the lakebed on a tall column of white smoke](../../assets/media/OG_Rocket_Frame2.JPG)
