@@ -15,9 +15,9 @@ endDate: 2024
 </div>
 <div>
 
-My senior project at SDSU was to design, build, and test solid rocket motors and measure their
-thrust against theoretical predictions. Under my guidance, my team successfully tested two rocket
-motors, the larger of which is shown here.
+My senior undergraduate project was to design, build, and test solid rocket motors and measure their
+thrust against theoretical predictions. Under my guidance, the team successfully tested two rocket
+motors, one of which is shown here.
 
 </div>
 </div>
@@ -29,7 +29,7 @@ motors, the larger of which is shown here.
 
 The motor casing was built from PVC pipe with a cast cement nozzle, and the propellant grain was a
 tubular geometry of potassium nitrate and sugar. Every material in the design was readily available
-and relatively inexpensive: two motors, one small and one larger, cost $450 in total. Thrust was
+and relatively inexpensive: two motors only cost $450 in total. Thrust was
 measured with a data acquisition system made up of a load cell, an amplifier board, and an
 Arduino-compatible microcontroller.
 
