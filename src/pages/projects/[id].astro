@@ -125,6 +125,11 @@ const { Content } = await render(project);
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   }
 
+  /* "two-media": two photos/videos followed by text, e.g. two camera angles of one flight */
+  .prose :global(.media-row.two-media) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr);
+  }
+
   .prose :global(.media-row > div > :first-child) {
     margin-top: 0;
   }
@@ -139,8 +144,13 @@ const { Content } = await render(project);
     line-height: 1.65;
   }
 
-  /* Captions under a single photo in a row are centered beneath it */
+  /* Captions under a photo or video in a row are centered just beneath it */
+  .prose :global(.media-row p:has(> img)) {
+    margin-bottom: 0;
+  }
+
   .prose :global(.media-row .caption) {
+    margin-top: 0.4rem;
     text-align: center;
   }
 
@@ -157,6 +167,78 @@ const { Content } = await render(project);
     .prose :global(.media-row.narrow-first) {
       grid-template-columns: 1fr;
       gap: 1rem;
+    }
+
+    /* On phones the two media stay side by side and the text goes underneath */
+    .prose :global(.media-row.two-media) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .prose :global(.media-row.two-media > div:last-child) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* Data plots: <div class="plot"> with a linked <img> and a caption. Full width, and the image
+     opens at full resolution in a new tab so dense figures stay readable. */
+  .prose :global(.plot) {
+    max-width: none;
+    margin: 1.25rem 0 1.75rem;
+  }
+
+  .prose :global(.plot img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+  }
+
+  .prose :global(.plot a:hover img) {
+    border-color: #1a1a1a;
+  }
+
+  .prose :global(.plot .caption) {
+    margin-top: 0.4rem;
+    text-align: center;
+  }
+
+  /* Media gallery: <div class="gallery"> of <figure>s, each a photo plus <figcaption>.
+     Thumbnails share one shape so the grid lines up; 3 across on desktop, 2 on phones. */
+  .prose :global(.gallery) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+    gap: 1rem;
+    max-width: none;
+    margin: 1rem 0 1.75rem;
+  }
+
+  .prose :global(.gallery figure) {
+    margin: 0;
+  }
+
+  .prose :global(.gallery p) {
+    margin: 0;
+  }
+
+  .prose :global(.gallery img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .prose :global(.gallery figcaption) {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #666;
+  }
+
+  @media (max-width: 480px) {
+    .prose :global(.gallery) {
+      grid-template-columns: 1fr 1fr;
     }
   }
 

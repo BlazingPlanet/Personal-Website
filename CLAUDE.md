@@ -18,6 +18,7 @@ Personal portfolio site for Trevor Taylor, aerospace engineer. Showcases rocketr
 - `src/content.config.ts` + `src/content/projects/*.md` — projects content collection; `src/lib/projects.ts` has sorting and date formatting
 - `src/data/highlights.ts` — list of items in the Home page Highlights section (rendered by `src/components/Highlights.astro`). Highlights are photos and short silent looping clips only; longer videos and build/process photos go on the project pages
 - `src/assets/media/` — Highlights photos; `public/media/` — converted Highlights videos (.mp4) and their poster .jpg
+- `scripts/export_flight_plots.py` — redraws TVC flight log plots for the website (not part of the build). Reads the decoder and captures from `C:\dev\TVC-Flight-Software` without modifying that repo; output goes to `public/media/`
 - `src/pages/contact.astro` — Contact page
 - `src/assets/headshot.jpg` — photo, rendered with `Image` from `astro:assets`
 - `public/resume.pdf` — public resume PDF (phone number intentionally removed)
