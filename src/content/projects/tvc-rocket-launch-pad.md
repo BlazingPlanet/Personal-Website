@@ -9,8 +9,6 @@ endDate: 2026
 
 <!-- DRAFT: all text on this page is a stand-in for Trevor to rewrite. -->
 
-<p class="caption"><em>This project is in progress. The page will grow as the next version comes together.</em></p>
-
 ## Overview
 
 <div class="media-row narrow-first">
@@ -19,13 +17,20 @@ endDate: 2026
 </div>
 <div>
 
-This is my most ambitious project so far: an actively stabilized, thrust-vector-controlled rocket
-with its own launch system. When I started, I had no background in embedded software or control
-systems. The flight computer, its firmware, the control loop, and the launch pad were all learned
-and built along the way.
+A thrust-vector-controlled (TVC) rocket maintains stability by gimbaling its motor (active control)
+instead of relying on fins (passive control). This rocket has no fins at all, so it is aerodynamically unstable and depends entirely on its flight
+computer to stay upright, measuring its orientation 200 times per second and gimbaling the motor to
+correct any attitude error.
 
-Over four test flights, the rocket has gone from a bare launch rod to a full pad with remote
-ignition and a retracting tower arm, and each flight has pointed to what to fix next.
+I started this project in the summer of 2026. My professional work is in structural analysis, and I
+wanted to push into a domain outside it. When I began, I had no background in embedded software or
+control systems; the flight computer, its firmware, the control loop, and the launch pad were all
+learned and built along the way.
+
+In four test flights so far, the rocket has progressed from a prototype launched off a hobby rail to
+a refined vehicle flying from a fully automated launch pad with remote ignition and retracting
+tower arms. Development is ongoing, focused on solving a vibration problem, tuning the controller,
+and redesigning the parachute ejection system.
 
 </div>
 </div>
@@ -35,12 +40,19 @@ ignition and a retracting tower arm, and each flight has pointed to what to fix 
 <div class="media-row">
 <div>
 
-The rocket steers by vectoring its motor's thrust. A custom flight computer estimates the
-rocket's attitude in real time and runs a PD controller to keep it pointed upright, while a flight
-state machine detects launch, burnout, and apogee to trigger parachute deployment.
-
-The launch pad has its own computer for remote ignition, a servo-actuated tower arm that retracts
-at launch, and pad status indication.
+- **Microcontroller:** STM32F411 (Arm Cortex-M4), programmed in bare-metal C
+- **Sensors:** ISM330DHCX 6-axis IMU (±8 g, ±1000 °/s) and BMP280 barometer
+- **Data logging:** 16 MB SPI flash recording the full vehicle state every control cycle
+- **Attitude estimation:** quaternion-based Mahony filter
+- **Altitude estimation:** 3-state Kalman filter (altitude, vertical velocity, accelerometer bias)
+  fusing IMU and barometer data
+- **Control:** PD attitude controller driving a two-axis servo gimbal with ±6° of travel
+- **Flight logic:** state machine that detects launch, burnout, and apogee, with a backup ejection
+  timer
+- **Recovery:** spring-loaded parachute ejection released by a servo-driven latch
+  ([details below](#recovery-system))
+- **Post-flight tools:** Python decoder that turns the flash dump into plots and a 3D attitude
+  replay
 
 </div>
 <div>
@@ -56,6 +68,8 @@ From the bottom up, the rocket is a lower body tube, a coupler, the flight compu
 ![Exploded CAD view of the rocket, labeled from left to right: lower body tube, coupler, flight computer mount, recovery system, and nose cone](../../assets/media/tvc-rocket-cad-labeled.png)
 
 <p class="caption"><em>Exploded view of the rocket (TVC mount, springs, and servo not shown)</em></p>
+
+### Recovery System
 
 <div class="media-row">
 <div>
@@ -91,7 +105,7 @@ why the next version moves to pyrotechnic ejection.
 </div>
 <div>
 
-![Back of flight computer V1 in its 3D-printed sled](../../assets/media/tvc-fc-v1-back.jpg)
+![Back of flight computer V1 in its 3D-printed sled](../../assets/media/tvc-fc-v1-back-cutout.webp)
 
 <p class="caption"><em>Back</em></p>
 
@@ -112,14 +126,14 @@ flight data showed that vibration was corrupting the gyroscope readings.
 <div class="media-row two-media">
 <div>
 
-![Front of flight computer V2 in a taller 3D-printed sled](../../assets/media/tvc-fc-v2-front.jpg)
+![Front of flight computer V2 in a taller 3D-printed sled](../../assets/media/tvc-fc-v2-front-cutout.webp)
 
 <p class="caption"><em>Front</em></p>
 
 </div>
 <div>
 
-![Back of flight computer V2 in its 3D-printed sled](../../assets/media/tvc-fc-v2-back.jpg)
+![Back of flight computer V2 in its 3D-printed sled](../../assets/media/tvc-fc-v2-back-cutout.webp)
 
 <p class="caption"><em>Back</em></p>
 
