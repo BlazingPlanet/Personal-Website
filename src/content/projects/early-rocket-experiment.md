@@ -14,7 +14,8 @@ endDate: 2019
 In high school, I set out to explore my interest in rocket propulsion by building a large solid
 rocket motor. I taught myself the fundamentals from books and online resources, then built the
 motor from parts I sourced at Home Depot. Looking back, it was a riskier project than I
-appreciated at the time, and I'm glad it worked as well as it did.
+appreciated at the time, and I'm glad it worked as well as it did. I do wish I had documented more
+of this project, but back then, I wasn't really thinking about it.
 
 With a motor in hand, I needed something to fly it in. Rather than build a test stand, I went
 straight to a rocket: large cardboard mailing tubes for the airframe, a plastic nose cone, and fins

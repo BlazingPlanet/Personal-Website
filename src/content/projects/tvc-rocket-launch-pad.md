@@ -56,11 +56,11 @@ two SG90 servos
 - **Flight Logic:** State machine that detects launch, burnout, and apogee, with a backup ejection
   timer
 - **Flight Simulation Software:** OpenRocket
-- **Recovery:** spring-loaded parachute ejection released by a servo-driven latch
+- **Recovery:** Spring-loaded parachute ejection released by a servo-driven latch
   ([details below](#recovery-system))
 - **Post-Flight Tools:** Python decoder that turns binary flash logs into plots and a 3D attitude
   replay
-- **Flight Software:** source code on [GitHub](https://github.com/BlazingPlanet/TVC-Flight-Software)
+- **Flight Software:** Source code on [GitHub](https://github.com/BlazingPlanet/TVC-Flight-Software)
 
 </div>
 <div>
@@ -215,8 +215,13 @@ update tightening them fixed the problem for later flights.
 Second, and more fundamental, vibration was corrupting V1's gyroscope readings. The body angular
 rates in the detail plot below are jagged and noisy throughout the boost phase instead of smooth.
 The noise appears just before the BOOST state begins, at motor ignition, which points to the
-motor's vibration as the source.
-Because the attitude estimate is built from those readings, the logged tilt peaks at only about 30°
+motor's vibration as the source. This matters most during the burn: the accelerometer then measures
+the motor's thrust on top of gravity, so it can no longer tell the flight computer which way is
+down. The flight computer stops trusting it (the NO_TRUST flag) and estimates attitude by
+integrating the gyroscope alone, with nothing to correct any errors that build up. On a clean
+signal that is fine: bench testing measured only about 0.45° of gyro drift over the full 3.45 s
+burn. Vibration-corrupted readings are another matter. As a result,
+the logged tilt peaks at only about 30°
 early in the flight, while the video shows the rocket pitching over to nearly 90°. The flight
 computer was severely underreporting how far the rocket had actually tipped. During the boost
 phase, the commanded gimbal deflection also sat at its ±6° limit about 80% of the time on both axes
@@ -240,9 +245,34 @@ phase, the commanded gimbal deflection also sat at its ±6° limit about 80% of 
 </div>
 <div>
 
-The first flight with flight computer V2. The parachute deployed and the rocket was recovered.
+The best of the four flights, and the first with flight computer V2. The rocket still pitched over
+off the pad, but far less aggressively than on the earlier flights. The parachute deployed late
+(the video cuts out before it opens), and the rocket was recovered and reflown about 20 minutes
+later as flight 4.
 
 </div>
+</div>
+
+The flight 3 log gives the clearest picture yet of the vibration problem. In the detail plot, the
+body rate about the Y axis (wy) is still jagged and noisy, while wz is noticeably smoother. The same
+split shows up in the commanded gimbal deflection: cmd_y is extremely noisy and spent much of the
+burn pinned at its ±6° limit (about 58% of the boost phase), while cmd_z, driving the X-axis servo,
+settled toward zero mid-burn, showing signs of converging on vertical flight. The servo pulse
+widths look smoother than the commands because a slew-rate limiter caps how quickly the gimbal can
+change direction.
+
+Overall, the flight was visibly more controlled than flight 2, and the rocket reached about 77 m.
+The angle from vertical in the overview plot is underreported since the gyro readings are
+still corrupted.
+
+<div class="plot">
+<a href="/media/tvc-flight3-plots-overview.png" target="_blank" rel="noopener"><img src="/media/tvc-flight3-plots-overview.png" alt="Flight 3 overview plots: altitude, vertical velocity, vertical acceleration, angle from vertical, attitude error, and commanded gimbal deflection versus time" width="1980" height="1710" loading="lazy" decoding="async"></a>
+<p class="caption"><em>Flight 3 overview, from liftoff through the start of descent. Click to enlarge.</em></p>
+</div>
+
+<div class="plot">
+<a href="/media/tvc-flight3-plots-detail.png" target="_blank" rel="noopener"><img src="/media/tvc-flight3-plots-detail.png" alt="Flight 3 detail plots: body angular rates, raw accelerometer, servo pulse widths, and log flags versus time" width="1980" height="1980" loading="lazy" decoding="async"></a>
+<p class="caption"><em>Flight 3 detail: body rates, raw accelerometer, servo commands, and log flags. Click to enlarge.</em></p>
 </div>
 
 ### Flight 4
@@ -253,28 +283,14 @@ The first flight with flight computer V2. The parachute deployed and the rocket 
 </div>
 <div>
 
-Flown later the same day as flight 3 (the pad camera view is at the top of this page). The
-parachute did not deploy and the rocket was destroyed. With the vibration problem still present
+Flown about 20 minutes after flight 3 (the pad camera view is at the top of this page), with a
+flight log similar to flight 3's. Between flights, the flight computer and recovery
+system got minimal inspection, so a problem may have gone unnoticed. The parachute did not
+deploy and the rocket was destroyed. With the vibration problem still present
 and the spring-loaded ejection system working on only two of four flights, this flight set the
 direction for the next version.
 
 </div>
-</div>
-
-Flights 3 and 4 flew nearly identically, so the log from flight 3 is shown here. With flight
-computer V2, control during the burn was much better than on flight 2: tilt stayed within about
-11° of vertical for the entire burn, gimbal saturation dropped from about 80% of the burn to 58%
-and 29% on the two axes, and the rocket reached about 77 m. After burnout, with no thrust left to
-steer, the rocket tipped to about 70° during coast.
-
-<div class="plot">
-<a href="/media/tvc-flight3-plots-overview.png" target="_blank" rel="noopener"><img src="/media/tvc-flight3-plots-overview.png" alt="Flight 3 overview plots: altitude, vertical velocity, vertical acceleration, angle from vertical, attitude error, and commanded gimbal deflection versus time" width="1980" height="1710" loading="lazy" decoding="async"></a>
-<p class="caption"><em>Flight 3 overview, from liftoff through the start of descent. Click to enlarge.</em></p>
-</div>
-
-<div class="plot">
-<a href="/media/tvc-flight3-plots-detail.png" target="_blank" rel="noopener"><img src="/media/tvc-flight3-plots-detail.png" alt="Flight 3 detail plots: body angular rates, raw accelerometer, servo pulse widths, and log flags versus time" width="1980" height="1980" loading="lazy" decoding="async"></a>
-<p class="caption"><em>Flight 3 detail: body rates, raw accelerometer, servo commands, and log flags. Click to enlarge.</em></p>
 </div>
 
 ## What's Next
@@ -291,13 +307,13 @@ steer, the rocket tipped to about 70° during coast.
 
 ![An STM32 Nucleo board and breadboard wired to the two-servo TVC mount on a desk](../../assets/media/tvc-bench-test-nucleo.jpg)
 
-<figcaption>Early bench testing of the TVC mount on an STM32 Nucleo development board</figcaption>
+<figcaption>Early bench testing of the TVC mount</figcaption>
 </figure>
 <figure>
 
 ![The rocket hanging horizontally from two strings in a living room](../../assets/media/tvc-inertia-test-1.jpg)
 
-<figcaption>Bifilar pendulum test to measure the rocket's moment of inertia for controller tuning</figcaption>
+<figcaption>Bifilar pendulum test to measure the rocket's moment of inertia</figcaption>
 </figure>
 <figure>
 
@@ -309,24 +325,24 @@ steer, the rocket tipped to about 70° during coast.
 
 ![Workbench covered in launch pad drawings and aluminum parts](../../assets/media/tvc-launch-pad-build.jpg)
 
-<figcaption>Building the launch pad from aluminum stock in the workshop</figcaption>
+<figcaption>Building the launch pad</figcaption>
 </figure>
 <figure>
 
 ![Breadboarded electronics with a microcontroller, LiPo batteries, and alligator-clip leads](../../assets/media/tvc-pad-electronics-prototype.jpg)
 
-<figcaption>Breadboard prototype of the launch pad electronics</figcaption>
+<figcaption>Testing launch pad electronics</figcaption>
 </figure>
 <figure>
 
 ![Two people walking out across a dry lakebed toward the launch site, with mountains in the distance](../../assets/media/tvc-flight2-walkout.jpg)
 
-<figcaption>Walking out to the launch site for flight 2</figcaption>
+<figcaption>Walk of shame to crashed rocket on flight 2</figcaption>
 </figure>
 <figure>
 
 ![Trevor kneeling on a cracked dry lakebed next to the rocket after landing](../../assets/media/tvc-flight2-recovery.jpg)
 
-<figcaption>Recovering the rocket after flight 2</figcaption>
+<figcaption>Inspecting flight 2 crater & damage</figcaption>
 </figure>
 </div>

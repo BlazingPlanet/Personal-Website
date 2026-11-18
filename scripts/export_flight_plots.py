@@ -106,7 +106,12 @@ for name in ("ax_g", "ay_g", "az_g"):
 finish(ax, "Accel (g)", "Raw Accelerometer, Body Frame"); ax.legend(ncol=3, loc="upper right")
 ax = axes[2]
 ax.plot(t, data["pulse_y"], label="pulse_y (mount Y)"); ax.plot(t, data["pulse_z"], label="pulse_z (mount X)")
-ax.axhline(1600, color="tab:blue", ls=":", lw=1.0); ax.axhline(1875, color="tab:orange", ls=":", lw=1.0)
+# Trim lines come from the log, not hard-coded constants: on the pad the servos rest at trim, so the
+# median pad pulse is the trim that was flashed for that flight (it changed between flights).
+on_pad = data["state"] == 1
+trim_y = float(np.median(data["pulse_y"][on_pad])) if on_pad.any() else 1600.0
+trim_z = float(np.median(data["pulse_z"][on_pad])) if on_pad.any() else 1875.0
+ax.axhline(trim_y, color="tab:blue", ls=":", lw=1.0); ax.axhline(trim_z, color="tab:orange", ls=":", lw=1.0)
 finish(ax, "Pulse (µs)", "Servo Pulse Widths (dotted = trim)"); ax.legend(loc="lower right", ncol=2)
 ax = axes[3]
 dec.shade_states(ax, data)
@@ -122,4 +127,5 @@ phase_legend(fig)
 fig.tight_layout(rect=(0, 0, 1, 0.965))
 fig.savefig(out_prefix + "-detail.png", dpi=180, facecolor="white")
 
-print(f"window {window[0]:.2f}-{window[1]:.2f} s; flags shown: {[n for _, n in fired]}")
+print(f"window {window[0]:.2f}-{window[1]:.2f} s; trim y={trim_y:.0f} z={trim_z:.0f} us; "
+      f"flags shown: {[n for _, n in fired]}")

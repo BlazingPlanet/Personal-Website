@@ -57,3 +57,38 @@ Arduino-compatible microcontroller.
 
 </div>
 </div>
+
+## Media Gallery
+
+<div class="gallery">
+<figure>
+
+![Trevor preparing propellant ingredients in a pot](../../assets/media/Mixing_1.jpg)
+
+<figcaption>Preparing the propellant (1)</figcaption>
+</figure>
+<figure>
+
+![Trevor stirring rocket propellant in an electric skillet](../../assets/media/Mixing_2.jpg)
+
+<figcaption>Preparing the propellant (2)</figcaption>
+</figure>
+<figure>
+
+![An aluminum plate clamped under a drill press](../../assets/media/srm-test-stand-machining.jpg)
+
+<figcaption>Machining an aluminum plate for the test stand</figcaption>
+</figure>
+<figure>
+
+![An aluminum lattice motor cage standing on a workbench](../../assets/media/srm-test-stand.jpg)
+
+<figcaption>Motor test stand cage</figcaption>
+</figure>
+<figure>
+
+![A load cell wired to an amplifier board and an Arduino-compatible SparkFun RedBoard on a breadboard](../../assets/media/srm-daq-setup.jpg)
+
+<figcaption>Data acquisition system: load cell, amplifier board, and microcontroller</figcaption>
+</figure>
+</div>
