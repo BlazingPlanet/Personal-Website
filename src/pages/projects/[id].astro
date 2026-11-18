@@ -67,18 +67,15 @@ const { Content } = await render(project);
 
   /* Styles for the rendered Markdown. :global() is needed because Astro's scoped
      styles don't otherwise reach elements that come from the Markdown file. */
-  /* Keep lines of text at a comfortable reading width; photos use the full width */
-  .prose > :global(*) {
-    max-width: 72ch;
-  }
-
-  .prose > :global(p:has(> img)) {
-    max-width: none;
+  /* One text size for all body text and bullets on project pages, beside media or full width */
+  .prose {
+    font-size: 1.1rem;
+    line-height: 1.65;
   }
 
   .prose :global(h2) {
     margin: 2rem 0 0.5rem;
-    font-size: 1.35rem;
+    font-size: 1.45rem;
   }
 
   .prose :global(h2:first-child) {
@@ -87,7 +84,7 @@ const { Content } = await render(project);
 
   .prose :global(h3) {
     margin: 1.5rem 0 0.4rem;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
   .prose :global(img) {
@@ -136,12 +133,6 @@ const { Content } = await render(project);
 
   .prose :global(.media-row > div > :last-child) {
     margin-bottom: 0;
-  }
-
-  /* Text beside a photo/video is a bit larger so it balances the media */
-  .prose :global(.media-row p:not(.caption)) {
-    font-size: 1.15rem;
-    line-height: 1.65;
   }
 
   /* Captions under a photo or video in a row are centered just beneath it */

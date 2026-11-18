@@ -1,5 +1,5 @@
 ---
-title: SRM Build + Test
+title: SRM Build & Test
 summary: Solid rocket motors designed, built, and tested from scratch.
 cover: ../../assets/media/srm-static-fire.jpg
 coverAlt: Solid rocket motor firing on the test stand, with a tall white exhaust plume against a blue sky
