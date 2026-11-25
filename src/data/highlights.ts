@@ -19,11 +19,20 @@ export type Highlight = {
 export const highlights: Highlight[] = [
   {
     type: 'clip',
+    src: '/media/tvc-liftoff-clip.mp4',
+    poster: '/media/tvc-liftoff-clip.jpg',
+    width: 720,
+    height: 1280,
+    caption: 'TVC Rocket Liftoff',
+    project: 'tvc-rocket-launch-pad',
+  },
+  {
+    type: 'clip',
     src: '/media/static-fire.mp4',
     poster: '/media/static-fire.jpg',
     width: 720,
     height: 1280,
-    caption: 'Static fire',
+    caption: 'SRM Static Fire',
     project: 'srm-build-test',
   },
 ];

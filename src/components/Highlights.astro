@@ -35,9 +35,12 @@ for (const h of highlights) {
           />
         )}
         <figcaption>
-          <span>{h.caption}</span>
-          {h.project && (
-            <a href={`/projects/${h.project}`}>{projectTitles.get(h.project)} →</a>
+          {h.project ? (
+            <a href={`/projects/${h.project}`} title={`Go to ${projectTitles.get(h.project)}`}>
+              {h.caption} →
+            </a>
+          ) : (
+            h.caption
           )}
         </figcaption>
       </figure>
@@ -91,7 +94,7 @@ for (const h of highlights) {
     margin: 0;
     padding: 0;
     columns: 3 240px;
-    column-gap: 1.25rem;
+    column-gap: 1.75rem;
   }
 
   .highlights li {
@@ -111,20 +114,16 @@ for (const h of highlights) {
     background: #f1f1f1;
   }
 
+  /* The caption itself links to the project page when the highlight has one */
   figcaption {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0 0.75rem;
     margin-top: 0.45rem;
     font-size: 0.9rem;
     color: #333;
   }
 
   figcaption a {
-    color: #666;
+    color: inherit;
     text-decoration: none;
-    white-space: nowrap;
   }
 
   figcaption a:hover {
